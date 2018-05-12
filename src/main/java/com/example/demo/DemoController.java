@@ -23,22 +23,27 @@ public class DemoController {
 	private AppUserRepository appuserRepo;
 	@Autowired
 	private UserProfileRespository profileRepo;
+	@Autowired
+	private PostRepository postrepo;
+	@Autowired
+	private AppUserRepository appuserrepo;
+	
 
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String renderFirstPage(@RequestParam Map<String,Object> model, Model viewModel) {
 		return "index";
 		
 	}
-	@RequestMapping(value="/ProfilePage", method=RequestMethod.GET)	
-	public String renderProfilePage(@RequestParam Map<String,Object> model, Model viewModel) {
-			return "ProfilePage";
-	}
+//	@RequestMapping(value="/ProfilePage", method=RequestMethod.GET)	
+//	public String renderProfilePage(@RequestParam Map<String,Object> model, Model viewModel) {
+//			return "ProfilePage";
+//	}
 	@RequestMapping(value="/FriendsList", method=RequestMethod.GET)	
 	public String rendercreatedprofile(@RequestParam Map<String,Object> model, Model viewModel) {
 			return "FriendsList";
 	}
 	
-	@GetMapping(value="/facebook")
+	@GetMapping(value="/facebook")	
 	public ModelAndView renderFB() {
 		ModelAndView mv= new ModelAndView();
 		mv.setViewName("facebook_login");
@@ -51,32 +56,47 @@ public class DemoController {
 			@RequestParam(name="myName") String myName,
 			@RequestParam(name="myFriends") String myFriends,
 			@RequestParam(name="myEmail") String myEmail,
-			HttpServletRequest req
+			HttpServletRequest request
 			) {
+		HttpSession session=request.getSession();
 		System.out.println(myId + myName + myFriends + myEmail);
+		session.setAttribute("myFriends", myFriends);
+
 		String[] splitted= myFriends.split("/");
-		for(int i=0; i< splitted.length;i++)
-		{
-			System.out.println(i+":"+ splitted[i]);
-		}
-		HttpSession session=req.getSession();
+		
 		Boolean exist=false;
 		AppUser ap = new AppUser();
 		ap.setEmail(myEmail);
 		ap.setId(myId);
 		ap.setName(myName);
 		
-		session.setAttribute("uid", ap.getId());
-		List<Friend> friendlist = new ArrayList();
+		session.setAttribute("uid", myId);
+		System.out.println("admin: "+(ap.getEmail()).toString());
+		if ("open_acnhzic_user@tfbnw.net".equals(ap.getEmail()))
+		{
+			ModelAndView mv= new ModelAndView();
+			System.out.println("admin matched ");
+			session.setAttribute("adminloggedin", "yes");
+				
+			Iterable<AppUser> users= appuserrepo.findAll();
+			
+			mv.addObject("users", users);
+			mv.setViewName("AdminPage");
+			return mv;
+		}
+		else
+		{
+			session.setAttribute("adminloggedin", "no");
+		}
 		
-		Friend f = new Friend();
-		friendlist.add(f);
 		
 		exist=appuserRepo.existsById(myId);
+		System.out.println("user exists or no: "+exist);
 		if (exist==true)
 		{
 			Boolean profileexist=false;
 			profileexist=profileRepo.existsById(myId);
+			System.out.println("user profile exists : "+profileexist);
 			if (profileexist==true)
 			{
 				
@@ -84,10 +104,11 @@ public class DemoController {
 				UserProfile up=profileRepo.findById((String)session.getAttribute("uid"));
 				mv.addObject("profile_name", up.getProfile_name());
 				
-				System.out.println((String)up.getProfile_name());
-				System.out.println((String)up.getProfile_desc());
-				System.out.println((String)up.getProfile_picture());
+				Post pst= new Post();
 				
+				List<Post> posts = postrepo.findByUserId(myId);
+				mv.addObject("ownProfile", "Yes");
+				mv.addObject("postList", posts);
 				mv.addObject("profile_desc", up.getProfile_desc());
 				mv.addObject("imgSrc", up.getProfile_picture());
 				mv.setViewName("ProfilePage");

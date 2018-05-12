@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface AppUserRepository extends CrudRepository<AppUser, Integer> {
 
 	public boolean existsById(String myId);
+	Iterable<AppUser> findAll();
 	
 }

@@ -83,8 +83,6 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me?fields=id,name,email', function(response) {
       console.log(response);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
       $('[name="myId"]').val(response.id);
       $('[name="myName"]').val(response.name);
       $('[name="myEmail"]').val(response.email);
@@ -93,7 +91,7 @@
       	console.log(response);
       	response.data.forEach(function (ele,i){
       		$("#tableBody").append(
-      				'<tr><th scope="row"'+i+'</th>'+'<td>'+ ele.name +'</td>'+'<td>'+ele.id+'</td>'+'<tr>'
+      				'<tr><th scope="row"'+i+'</th>'+'<td><a href="/FriendProfile?friendId='+ele.id+'" >'+ ele.name +'</a></td>'+'<td>'+ele.id+'</td>'+'<tr> '
       				);
       		var earlierVal = $('[name="myFriends"]').val();
       		$('[name="myFriends"]').val(earlierVal+ele.id+"/"+ele.name+"/");
@@ -105,26 +103,63 @@
     
   }
 </script>
-
 <!--
   Below we include the Login Button social plugin. This button uses
   the JavaScript SDK to present a graphical Login button that triggers
   the FB.login() function when clicked.
 -->
-<div class="container">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+	<nav class="navbar navbar-light bg-light">
+		<a class="navbar-brand" href="#"> <img src="logo.png" width="30"
+			height="30" class="d-inline-block align-top" alt=""> Media App
+		</a>
+		<a class="nav-link" href="/">Edit Profile <span class="sr-only">(current)</span></a>
+     
+        <a class="nav-link" href="/FriendsList">FriendList <span class="sr-only">(current)</span></a>
+        
+      <a href="/viewNotification" >    <button type="button" class="btn btn-primary" >
+  Notifications <span class="badge badge-light"></span>
+</button></a> 
+	
+	<fb:login-button data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false" scope="public_profile,email,user_friends" onlogin="checkLoginState();">
+</fb:login-button>
+
+	</nav>
+	<div id="id02" class="modal">
+	<div  class="modal-body modal-backdrop">
+ <hr>
+  <h5>Tooltips in a modal</h5>
+  <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> have tooltips on hover.</p>
+</div>
+	</div>
+	
+
+<!-- <div class="container">
 <div class="row">
 <fb:login-button data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false" scope="public_profile,email,user_friends" onlogin="checkLoginState();">
 </fb:login-button>
 <div id="status">
 </div>
-</div>
+</div> -->
 
 </div>
 
-
+<%-- <%@ taglib prefix="a" uri="http://java.sun.com/jsp/jstl/core" %> --%>
 
 <div class="container">
-<div class="row">
+	<%-- <div class="row">
+		<div class="list-group">
+		<a:forEach var="i" items="${friends}">
+				<a href="/ProfilePage?postID=FB ID" > 
+  					<button type="button" class="list-group-item list-group-item-action">Name</button>
+  					<input type="hidden" id="postID" name="postID" value="${i.friendName}"/>
+				</a> 
+		</a:forEach>
+		</div> --%>
 <table class="table">
 <thead>
 <tr>
@@ -138,7 +173,7 @@
 
 </tbody>
 
-</table>
+</table> 
 </div>
 </div>
 <form id="redirectForm" method="Post" action="facebookRedirect">

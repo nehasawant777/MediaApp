@@ -19,10 +19,20 @@
 		<a class="navbar-brand" href="#"> <img src="logo.png" width="30"
 			height="30" class="d-inline-block align-top" alt=""> Media App
 		</a>
+		<a class="nav-link" href="/">Edit Profile <span class="sr-only">(current)</span></a>
+     
+        <a class="nav-link" href="/FriendsList">FriendList <span class="sr-only">(current)</span></a>
+        
+         <a href="/viewNotification" >    <button type="button" class="btn btn-primary" >
+  Notifications <span class="badge badge-light"></span>
+</button></a> 
+	
+	<fb:login-button data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false" scope="public_profile,email,user_friends" onlogin="checkLoginState();">
+</fb:login-button>
 	</nav>
 	<div class="container">
 	 Create Profile Page
-	</div>
+	
 	<div class="container" style="margin-top:100px;color:	#A9A9A9">
 		<form action="/upload" method="POST" enctype="multipart/form-data">
 			<div class="form-group">
@@ -42,6 +52,16 @@
 			
 		</form>
 	</div>
-
+	<div>
+	
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Create Profile <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/FriendsList">FriendList <span class="sr-only">(current)</span></a>
+      </li>
+      
+	</div>
+</div>
 </body>
 </html>

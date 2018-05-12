@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 public class ProfileController {
 	@Autowired
 	private UserProfileRespository profileRepo;
+	UploadToS3 s3;
 	
 	@Value("${access_id}")
 	String id;
@@ -43,6 +45,18 @@ public class ProfileController {
 		
 		
 	}
+//	@PostMapping(value="/upload")
+//	public ModelAndView uploadToS3(
+//			@RequestParam("file") MultipartFile image) throws IOException {
+//		ModelAndView profilepage = new ModelAndView();
+//		String addr= s3.upload(image.getOriginalFilename(),image.getInputStream());
+//		
+//		profilepage.addObject("imgSrc", addr);
+//		profilepage.setViewName("profile");
+//		return profilepage;
+//		
+//		
+//	}
 	
 	@PostMapping(value="/upload")
 	public ModelAndView uploadToS3(
@@ -65,6 +79,7 @@ public class ProfileController {
 		.withCannedAcl(CannedAccessControlList.PublicRead);
 			
 			s3client.putObject(putReq);
+			
 			HttpSession session=req.getSession();
 			String imgSrc= "http://"+ "nehasawant" + ".s3.amazonaws.com/" + image.getOriginalFilename();
 			
@@ -81,6 +96,8 @@ public class ProfileController {
 			profileRepo.save(p);
 			
 			ProfilePage.addObject("imgSrc",imgSrc);
+			ProfilePage.addObject("profile_name",profile_name);
+			ProfilePage.addObject("profile_desc",profile_desc);
 			ProfilePage.setViewName("ProfilePage");
 			return ProfilePage;
 			

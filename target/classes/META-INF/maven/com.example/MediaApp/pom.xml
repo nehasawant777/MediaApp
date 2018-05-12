@@ -75,6 +75,17 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency> 
+		<!-- Spring Session jdbc-->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+        		<artifactId>spring-session-jdbc</artifactId>
+		</dependency>
+		<!-- video js-->
+		<dependency>
+    			<groupId>org.webjars</groupId>
+    			<artifactId>video-js</artifactId>
+    			<version>5.2.1</version>
+		</dependency>
 	</dependencies>
 	
 

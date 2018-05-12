@@ -19,7 +19,15 @@
 		<a class="navbar-brand" href="#"> <img src="logo.png" width="30"
 			height="30" class="d-inline-block align-top" alt=""> Media App
 		</a>
+		<a class="nav-link" href="/">Edit Profile <span class="sr-only">(current)</span></a>
+     
+        <a class="nav-link" href="/FriendsList">FriendList <span class="sr-only">(current)</span></a>
+        
+        <!-- <a href="/viewNotification" >    <button type="button" class="btn btn-primary" >
+  Notifications <span class="badge badge-light">4</span>
+</button></a> --> 
 	</nav>
+	
 	<div class="container">
 	 Create Profile Page
 	</div>
