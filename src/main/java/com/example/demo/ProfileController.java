@@ -95,6 +95,7 @@ public class ProfileController {
 			
 			profileRepo.save(p);
 			
+			ProfilePage.addObject("ownProfile", "Yes");
 			ProfilePage.addObject("imgSrc",imgSrc);
 			ProfilePage.addObject("profile_name",profile_name);
 			ProfilePage.addObject("profile_desc",profile_desc);
